@@ -1,0 +1,213 @@
+{
+	"name": "pipeline1_copy_csv_to_dwh",
+	"properties": {
+		"activities": [
+			{
+				"name": "csv2dwh",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "linkedService1",
+							"type": "LinkedServiceReference"
+						},
+						"path": "stage"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "model",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "model",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "mpg",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "mpg",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "cyl",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "cyl",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "disp",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "disp",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "hp",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "hp",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "drat",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "drat",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "wt",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "wt",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "qsec",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "qsec",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "vs",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "vs",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "am",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "am",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "gear",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "gear",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "carb",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "carb",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "mtcarsdata1csv",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "dsqlpooldwh1",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
